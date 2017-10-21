@@ -1,0 +1,63 @@
+SQL
+
+- Sails by member
+SELECT distinct sailor, count(*) as sailed from results group by sailor order by sailor asc;
+
+- Sails per fleet per individual race
+SELECT distinct race_name, count(*) as sailed, fleet, date from results where role = 'helm' group by date, fleet order by date asc
+
+- Sails per sailor for the year
+SELECT distinct sailor, count(*) as sailed from results group by sailor order by sailed desc;
+
+- Sails per cup race or series
+SELECT distinct race_name, count(*) as sailed from results group by race_name order by sailed desc;
+
+- Sails per cup race per date
+SELECT distinct race_name, count(*) as sailed, date from results where race_name like '%cup%' group by race_name, date order by date asc
+
+- max sails per fleet
+select max(sailed), fleet, race_name, date from ( SELECT distinct race_name, count(*) as sailed, fleet, date from results where role = 'helm' and fleet != 'mixed' group by fleet, date ORDER BY `sailed` DESC ) as s group by fleet
+
+- max sails per race series or cup race   
+select max(sailed) as sails, fleet, race_name, race_type, date from ( SELECT distinct race_name, race_type, count(*) as sailed, fleet, date from results where role = 'helm' and fleet != 'mixed' group by fleet, date ORDER BY `sailed`  DESC ) as s where race_type = 'Cup race' group by fleet, race_name order by date asc;
+
+
+SELECT distinct rr.race_name, count(rr.id) as sailed, rr.date from results rr where rr.race_name like '%cup%' group by rr.race_name, rr.date order by rr.date asc
+
+
+SELECT distinct r.race_name, count(r.id) as DNF, r.date from results r where r.race_name like '%cup%' and r.place = 'DNF' group by r.race_name, r.date order by r.date asc
+
+
+Show race_ summary and DNF
+
+SELECT distinct r.race_name, count(r.id) as sailed, (select count(rr.id) from results rr where rr.race_name = r.race_name and place = 'DNF') as sailed2 from results r group by r.race_name order by sailed desc
+
+Get double handed boats
+select boat, sail from results where role = 'crew' group by sail, boat order by boat asc limit 200
+
+Finding single handed boats
+select  distinct r.sail, r.boat, rr.sail from results r left join (select * from results where role = 'crew' ) as rr on rr.id = r.id  order by boat limit 100
+
+
+- Total number of different boats: 125
+
+- Total number of double handers: 53
+select distinct r.sail, r.boat from results r join boats b on b.boat = r.boat where b.type = 'double'
+
+- Total number of single handers - 71
+select distinct r.sail, r.boat from results r join boats b on b.boat = r.boat where b.type = ‘single’
+
+- active sailors
+- select * from ( select distinct(sailor), count(*) as sails from results group by sailor order by sailor asc ) as s where s.sails > 6
+
+- total sailed per series per fleet plus averages
+- select race_name, max(sailed) as entries, round(avg(sailed)) as avg, concat(round((avg(sailed)/max(sailed) * 100)),'%') as percent, fleet, date, race_type from ( SELECT distinct race_name, count(*) as sailed, fleet, date, race_type from results where role = 'helm' and fleet != 'mixed' group by fleet, date ORDER BY `sailed` DESC ) as s where race_type = 'Series' group by race_name, fleet order by date
+
+
+Sailors per type, Thursday or Sunday
+
+SELECT distinct sailor, count(*) as sailed from results where race_name like 'Thursday%' group by sailor order by sailor asc
+
+Thursday OOD totals
+SELECT distinct sailor, count(*) as sailed, 'Thursday' as OOD from results where place = 'OOD' and race_name like 'Thursday%' group by sailor order by sailor asc
+
