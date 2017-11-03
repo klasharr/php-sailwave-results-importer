@@ -29,7 +29,7 @@ class SingleRaceCSVRowMapping{
             } elseif ( empty($col) || strlen($col) < 3) {
                 continue;
             } else {
-                throw new Exception('ERROR: "' . $col . '" could not be parsed, invalid column header');
+                throw new Exception('ERROR: "' . $col . '" could not be parsed, invalid column header. Row is ' . $csv_row );
             }
         }
         

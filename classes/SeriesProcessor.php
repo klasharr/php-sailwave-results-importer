@@ -36,9 +36,11 @@ class SeriesProcessor extends AbstractProcessor {
 
         $data = array();
         foreach($this->raw_file_contents_as_array as $i => $row){
-
-            $data[] = NormaliseData::getSeriesRow($row, $row_mapping);
-
+            try{
+                $data[] = NormaliseData::getSeriesRow($row, $row_mapping);
+            } catch( Exception $e){
+                throw new Exception( $this->filename . ' ' . $e->getMessage() . "<pre>" . print_r( $row, 1) . "</pre>" );
+            }
         }
 
         $this->data_to_insert = array('series' => $this->series, 'results' => $data);
@@ -77,9 +79,16 @@ class SeriesProcessor extends AbstractProcessor {
                 // Separate records for every date sailed in the series.
                 foreach($row['races'] as $date => $place){
                     $data['date'] = DateTime::createFromFormat('d/m/Y', $date)->format('Y-m-d');
-                    $data['month'] = DateTime::createFromFormat('d/m/Y', $date)->format('M');
-                    $data['day'] = DateTime::createFromFormat('d/m/Y', $date)->format('D');
+                    $data['month'] = DateTime::createFromFormat('d/m/Y', $date)->format('M'); // Oct
+                    $data['day'] = DateTime::createFromFormat('d/m/Y', $date)->format('D'); // Fri
                     $data['place'] = $place;
+                    /*
+                     * $copy = $data;
+                    unset($copy['timestamp']);
+                    $hash = md5(serialize($copy));
+
+                    $data['hash'] = $hash;
+                    */
                     $out[] = $data;
                 }
             }

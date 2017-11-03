@@ -27,6 +27,8 @@ class NormaliseData
         $row = str_replace('READ WILSON', 'READ-WILSON', $row);
         $row = str_replace('LLOYD JONES', 'LLOYD-JONES', $row);
         $row = str_replace('SINCLAIR TAYLOR', 'SINCLAIR-TAYLOR', $row);
+        $row = str_replace('MACMILLAN PRATT', 'MACMILLAN-PRATT', $row);
+        $row = str_replace('MACK, Becky, TOMES, Dee', 'MACK-Becky-TOMES-Dee', $row);
         $row = preg_replace("/\"([a-z-]*)(,)\s*([a-z-]*)\"/i", "$1 $3", $row);
 
         $row = explode(',', $row);
@@ -117,7 +119,7 @@ class NormaliseData
                 break;
             case 3:
                 $tmp = (int) trim($data);
-                if ($tmp != trim($data) || $tmp == 0) {
+                if ($tmp != trim($data) ) {
                     throw new Exception('At column 3 for sail num expected INT, got:' . $data);
                 }
                 break;

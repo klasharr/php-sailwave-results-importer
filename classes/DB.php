@@ -19,6 +19,8 @@ class DB{
         $this->db_password = $db_password;
         $this->db_host = $db_host;
 
+         $this->getDBConnection();
+
     }
 
     /**
@@ -28,7 +30,7 @@ class DB{
      */
     public function insert($prepped_data_for_db, $timestamp, $dry_run){
 
-        $this->getDBConnection();
+
 
         foreach($prepped_data_for_db as $row) {
 
@@ -45,10 +47,11 @@ class DB{
                 $row['sailor'],
                 $row['role'],
                 $row['place'],
-                $timestamp);
+                $timestamp
+            );
 
             if ($dry_run) {
-                echo sprintf("%s\n",$sql);
+                echo sprintf("%s<br/>",$sql);
                 continue;
             }
 
@@ -64,12 +67,12 @@ class DB{
             }
         }
 
-        $this->closeDBConnection();
+
     }
 
     private function getDBConnection(){
 
-        $this->conn = new mysqli($this->db_host, $this->db_username, $this>db_password, $this->db_name);
+        $this->conn = new mysqli($this->db_host, $this->db_username, $this->db_password, $this->db_name);
         if ($this->conn->connect_error) {
             throw new Exception('Could not connect to DB. Error: '. $conn->connect_error);
         }
@@ -83,6 +86,11 @@ class DB{
         } else {
             Throw new Exception('$conn not set, there is nothing to close');
         }
+    }
+
+    function __destruct() {
+
+        $this->closeDBConnection();
     }
 
 

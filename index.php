@@ -1,6 +1,6 @@
 <?php
 
-define('RACE_FILES_DIR', '2017_CSV');
+define('RACE_FILES_DIR', '2017');
 
 // False means see ouput messages, but no DB change
 define('DRY_RUN', false);
@@ -59,7 +59,7 @@ try{
 
     foreach($files as $file){
 
-        $o = new SeriesProcessor($DB, RACE_FILES_DIR.'/cup_races/'.$file);
+        $o = new SeriesProcessor($DB, RACE_FILES_DIR . '/' . $file); //.'/cup_races/'
 
         $o->setRaceName(ucwords(str_replace(array('_', '.csv'), array(' ',''), $file)));
         $o->setRaceType('Cup Race');
