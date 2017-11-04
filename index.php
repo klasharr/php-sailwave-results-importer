@@ -1,6 +1,6 @@
 <?php
 
-define('RACE_FILES_DIR', '2017');
+define('RACE_FILES_DIR', '2017'); // 2017/Cupraces
 
 // False means see ouput messages, but no DB change
 define('DRY_RUN', false);
@@ -28,6 +28,7 @@ try{
         DB_HOST
     );
 
+
     $files = array(
         'sunday_autumn.csv',
         'sunday_holiday.csv',
@@ -38,24 +39,28 @@ try{
         'thursday_twilight.csv'
     );
 
-    /**
+   /*
     $files = array(
-        '1974_cup.csv',
-        'chellingworth_cup.csv',
-        'commodores_cup.csv',
-        'elizabeth_cup.csv',
-        'fleming_trophy.csv',
-        'james_day_cup.csv',
-        'knoll_cup.csv',
-        'rees_cup.csv',
-        'owerdale_cup.csv',
-        'rnli_pennant.csv',
-        'the_opener.csv',
-        'vicky_thornhill_trophy.csv',
-        'wessex_shield.csv',
-        'coronation_cup.csv',
+        '1974_Cup_2017.csv',
+        'knoll_cup_2017.csv',
+        'ladies_cup_2017.csv',
+        'bent_cup_2017.csv',
+        'macdona_cup_2017.csv',
+        'chellingworth_cup_2017.csv',
+        'commodores_cup_2017.csv',
+        'owerdale_cup_2017.csv',
+        'coronation_cup_2017.csv',
+        'rees_cup_2017.csv',
+        'elisabeth_cup_2017.csv',
+        'rnli_pennant_2017.csv',
+        'fleming_trophy_2017.csv',
+        'the_opener_2017.csv',
+        'fun_race_2017.csv',
+        'vicky_thornhill_trophy_2017.csv',
+        'james_day_cup_2017.csv',
+        'wessex_shield_2017.csv',
     );
-     **/
+*/
 
     foreach($files as $file){
 

@@ -24,9 +24,12 @@ class NormaliseData
      */
     public static function getSeriesRow($row, SeriesCSVRowMapping $row_mapping)
     {
+        //@todo, handle this programmatically rather than with these exceptions
         $row = str_replace('READ WILSON', 'READ-WILSON', $row);
         $row = str_replace('LLOYD JONES', 'LLOYD-JONES', $row);
         $row = str_replace('SINCLAIR TAYLOR', 'SINCLAIR-TAYLOR', $row);
+        $row = str_replace('VAN HEEL', 'VAN-HEEL', $row);
+        $row = str_replace('VAN H', 'VAN-HEEL', $row);
         $row = str_replace('MACMILLAN PRATT', 'MACMILLAN-PRATT', $row);
         $row = str_replace('MACK, Becky, TOMES, Dee', 'MACK-Becky-TOMES-Dee', $row);
         $row = preg_replace("/\"([a-z-]*)(,)\s*([a-z-]*)\"/i", "$1 $3", $row);
